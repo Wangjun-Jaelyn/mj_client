@@ -56,6 +56,12 @@ function M:initItems()
 	
 	passwdLabel:setPosition(self.frameSize.width/2 - 110, self.frameSize.height/2-140)
 	self.bgLayer:addChild(passwdLabel)
+
+local testLabel = cc.Label:createWithSystemFont("修改点代码试试: ", "arial", 48)
+testLabel:setColor(ccc3(0,0,0))
+
+testLabel:setPosition(self.frameSize.width/2, self.frameSize.height/2)
+self.bgLayer:addChild(testLabel, 10)
 	
 	local passwdEdit= cc.EditBox:create({width = 201, height = 45}, "edit_bg.png")
     passwdEdit:setFontSize(24)
