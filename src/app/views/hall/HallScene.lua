@@ -85,6 +85,24 @@ function M:initBgLayer()
 	room4Btn:setTitleFontSize(35)
 	bg:addChild(room4Btn)
 	
+	room1Btn:setTag(1)
+	room2Btn:setTag(2)
+	room3Btn:setTag(3)
+	room4Btn:setTag(4)
+
+	local function callback(ref, type)
+        if type == ccui.TouchEventType.ended then
+        	local roomType = ref:getTag()
+        	print('roomType is '..tostring(roomType))
+        	local roomDialog = require("app.views.hall.CreateRoomDlg"):new({})
+        	-- ref:getParent():addChild(roomDialog, 10)
+        	self:addChild(roomDialog, 10)
+        end
+    end
+	room1Btn:addTouchEventListener(callback)
+	room2Btn:addTouchEventListener(callback)
+	room3Btn:addTouchEventListener(callback)
+	room4Btn:addTouchEventListener(callback)
 	
 	self:addChild(bgLayer)
 end

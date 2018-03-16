@@ -1,5 +1,4 @@
 local client = require "network.client"
-require("app.views.MainScene")
 
 local M = class("LoginScene", cc.load("mvc").ViewBase)
 
@@ -124,16 +123,18 @@ function M:OnLeave()
 end
 
 function M:BtnLogin()
+    self:OnLoginResult("test")
 	local account = self.accountEdit:getText()
 	local passwd = self.passwdEdit:getText()
 	
-	self.client:send("login.login", {account = account, passwd = passwd})
+	-- self.client:send("login.login", {account = account, passwd = passwd})
 end
 
 function M:OnLoginResult(msg)
 	print("=======>")
     print(msg)
-cc.Director:getInstance():replaceScene(MainScene:new())
+    local view = require("app.views.hall.HallScene"):new()
+  	view:showWithScene()
 end
 
 function M:BtnRegister()

@@ -1,4 +1,9 @@
 -- 创建房间对话框
+local Helper = {
+
+}
+Helper.size = cc.size(1334, 750)
+local Join_Game_Color = cc.c3b(0,255,0)
 local M = class("CreateRoomDlg", function (config)
     return cc.LayerColor:create(cc.c4b(0,0,0,180), 1334, 750)
 end)
@@ -15,23 +20,52 @@ function M:onExit()
 end
 
 function M:init()
+    self.frameSize = cc.Director:getInstance():getWinSize()
     local w,h = self:getContentSize().width,self:getContentSize().height
-    
+    local w,h = 1334, 750
+    local w,h = self.frameSize.width,self.frameSize.height
+    local x,y = w,h
+    local bg = self
     self.pageview=ccui.PageView:create()
     self.pageview:setAnchorPoint(cc.p(0.5,0.5))
     self.pageview:setContentSize(cc.size(w,h))
-    self.pageview:setPosition(cc.p(w/2,y/2))
+    self.pageview:setPosition(cc.p(w/2,h/2))
     self.pageview:setTouchEnabled(false)
     bg:addChild(self.pageview)
     self.pageview:addPage(self:creatSetGameItem())
     self.pageview:addPage(self:creatJoinGameItem())
 
-    local btn_table= {{"chuangjianyouxi@2x.png","chuangjianyouxixuanzhong@2x.png"},{"jiaruyouxiweixuanzhong@2x.png","jiaruyouxi@2x.png"},}
-    local title_btn=game.ui.button.SwichButton(btn_table,1,"horizontal",340,function(sender)
-        self:SwichEvent(sender)
-    end)
-	title_btn:setPosition(x/2-175,y - 60)
-    bg:addChild(title_btn)
+ --    local btn_table= {{"chuangjianyouxi@2x.png","chuangjianyouxixuanzhong@2x.png"},{"jiaruyouxiweixuanzhong@2x.png","jiaruyouxi@2x.png"},}
+ --    local title_btn=game.ui.button.SwichButton(btn_table,1,"horizontal",340,function(sender)
+ --        self:SwichEvent(sender)
+ --    end)
+	-- title_btn:setPosition(x/2-175,y - 60)
+ --    bg:addChild(title_btn)
+   
+        -- 创建游戏
+    local createBtn = ccui.Button:create("createroom.png")
+    createBtn:setAnchorPoint(cc.p(0.5, 0.5))
+    createBtn:setPosition(x/2-130,60)
+    createBtn:setTitleText("创建房间")
+    createBtn:setTitleFontSize(35)
+    bg:addChild(createBtn)
+        -- 加入游戏
+    local joinBtn = ccui.Button:create("joinroom.png")
+    joinBtn:setAnchorPoint(cc.p(0.5, 0.5))
+    joinBtn:setPosition(x/2+130,60)
+    joinBtn:setTitleText("加入房间")
+    joinBtn:setTitleFontSize(35)
+    bg:addChild(joinBtn)
+    
+    createBtn:setTag(1)
+    joinBtn:setTag(2)
+    local function callback(ref, type)
+        if type == ccui.TouchEventType.ended then
+            self:SwichEvent(ref)
+        end
+    end
+    createBtn:addTouchEventListener(callback)
+    joinBtn:addTouchEventListener(callback)
 
 end
 
@@ -169,24 +203,68 @@ function M:creatSetGameItem(sender)
     jushu_label:setPosition(180,y-180)
 	layout:addChild(jushu_label)
 	
-	local jushu_8=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+    local jushu_8 = ccui.CheckBox:create()
+
+    jushu_8:setTouchEnabled(true)
+
+    jushu_8:loadTextures("xuankuang@2x.png",
+
+                "xuankuang@2x.png",
+
+                "gou@2x.png",
+
+                "xuankuang@2x.png",
+
+                "xuankuang@2x.png")
+
+    jushu_8:setPosition(cc.p(120, 300))   --坐标
+
+    jushu_8:addEventListener(function(sender,select)
         self:selectedEvent(sender,select)
-    end)
-	jushu_8:setTag(21)
+    end)  --注册事件
+    jushu_8:setTag(21)
     jushu_8:setPosition(300,y-180)
-    layout:addChild(jushu_8)
+    layout:addChild(jushu_8,10)  --添加到图层
+	-- local jushu_8=ccui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+ --        self:selectedEvent(sender,select)
+ --    end)
+	-- jushu_8:setTag(21)
+ --    jushu_8:setPosition(300,y-180)
+ --    layout:addChild(jushu_8)
 	
 	local jushu_8_label = cc.Label:createWithSystemFont("8局",ChineseSysFont, 23)
     jushu_8_label:setColor(Join_Game_Color)
     jushu_8_label:setPosition(360,y-180)
     layout:addChild(jushu_8_label)
 	
-	local jushu_16=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+    local jushu_16 = ccui.CheckBox:create()
+
+    jushu_16:setTouchEnabled(true)
+
+    jushu_16:loadTextures("xuankuang@2x.png",
+
+                "xuankuang@2x.png",
+
+                "gou@2x.png",
+
+                "xuankuang@2x.png",
+
+                "xuankuang@2x.png")
+
+    jushu_16:setPosition(cc.p(120, 300))   --坐标
+
+    jushu_16:addEventListener(function(sender,select)
         self:selectedEvent(sender,select)
-    end)
-	jushu_16:setTag(22)
+    end)  --注册事件
+    jushu_16:setTag(22)
     jushu_16:setPosition(520,y-180)
-    layout:addChild(jushu_16)
+    layout:addChild(jushu_16,10)  --添加到图层
+	-- local jushu_16=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+ --        self:selectedEvent(sender,select)
+ --    end)
+	-- jushu_16:setTag(22)
+ --    jushu_16:setPosition(520,y-180)
+ --    layout:addChild(jushu_16)
 	
 	local jushu_16_label = cc.Label:createWithSystemFont("16局",ChineseSysFont, 23)
     jushu_16_label:setColor(Join_Game_Color)
@@ -199,24 +277,75 @@ function M:creatSetGameItem(sender)
     wanfa_label:setPosition(180,y-280)
 	layout:addChild(wanfa_label)
 	
-	local daibaohu=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+        --创建复选框         
+
+    local daibaohu = ccui.CheckBox:create()
+
+    daibaohu:setTouchEnabled(true)
+
+    daibaohu:loadTextures("xuankuang@2x.png",
+
+                "xuankuang@2x.png",
+
+                "gou@2x.png",
+
+                "xuankuang@2x.png",
+
+                "xuankuang@2x.png")
+
+    daibaohu:setPosition(cc.p(120, 300))   --坐标
+
+    daibaohu:addEventListener(function(sender,select)
         self:selectedEvent(sender,select)
-    end)
-	daibaohu:setTag(23)
+    end)  --注册事件
+    daibaohu:setTag(23)
     daibaohu:setPosition(300,y-280)
-    layout:addChild(daibaohu)
+    layout:addChild(daibaohu,10)  --添加到图层
+
+	-- local daibaohu=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+ --        self:selectedEvent(sender,select)
+ --    end)
+	-- daibaohu:setTag(23)
+ --    daibaohu:setPosition(300,y-280)
+ --    layout:addChild(daibaohu)
 	
 	local daibaohu_label = cc.Label:createWithSystemFont("带宝胡",ChineseSysFont, 23)
     daibaohu_label:setColor(Join_Game_Color)
     daibaohu_label:setPosition(360,y-280)
     layout:addChild(daibaohu_label)
 	
-	local qiangganghu=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+
+            --创建复选框         
+
+    local qiangganghu = ccui.CheckBox:create()
+
+    qiangganghu:setTouchEnabled(true)
+
+    qiangganghu:loadTextures("xuankuang@2x.png",
+
+                "xuankuang@2x.png",
+
+                "gou@2x.png",
+
+                "xuankuang@2x.png",
+
+                "xuankuang@2x.png")
+
+    qiangganghu:setPosition(cc.p(120, 300))   --坐标
+
+    qiangganghu:addEventListener(function(sender,select)
         self:selectedEvent(sender,select)
-    end)
-	qiangganghu:setTag(24)
+    end)  --注册事件
+    qiangganghu:setTag(24)
     qiangganghu:setPosition(520,y-280)
-    layout:addChild(qiangganghu)
+    layout:addChild(qiangganghu,10)  --添加到图层
+    
+	-- local qiangganghu=game.ui.button.CheckButton("xuankuang@2x.png","gou@2x.png",false,function(sender,select)
+ --        self:selectedEvent(sender,select)
+ --    end)
+	-- qiangganghu:setTag(24)
+ --    qiangganghu:setPosition(520,y-280)
+ --    layout:addChild(qiangganghu)
 	
 	local qiangganghu_label = cc.Label:createWithSystemFont("抢杠胡",ChineseSysFont, 23)
     qiangganghu_label:setColor(Join_Game_Color)
@@ -231,8 +360,12 @@ function M:creatJoinGameItem(sender)
     local x,y = Helper.size.width,Helper.size.height
     local layout=ccui.Layout:create()
 
-    local text_bg=display.newSprite("shuzilan@2x.png")
-    text_bg:setPosition(x/2,y/2+110)
+    -- local text_bg=display.newSprite("shuzilan@2x.png")
+    -- text_bg:setPosition(x/2,y/2+110)
+    -- layout:addChild(text_bg)
+
+    local text_bg = cc.Node:create()
+    text_bg:setContentSize(cc.size(x, y))
     layout:addChild(text_bg)
 
     local text_label= cc.Label:createWithSystemFont("",ChineseSysFont, 35)
