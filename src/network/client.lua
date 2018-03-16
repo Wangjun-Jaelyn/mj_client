@@ -35,6 +35,7 @@ function M:send(proto_name, msg)
 end
 
 function M:deal_msgs()
+--print("deal_msgs")
 	self:recv()
 	self:split_pack()
 	while self:dispatch_one() do
@@ -45,7 +46,7 @@ end
 function M:recv()
 	local reads, writes = socket.select({self.sock}, {}, 0)
 	if #reads == 0 then
-		print("no reads")
+		--print("no reads")
 		return
 	end
 
@@ -56,7 +57,7 @@ function M:recv()
 			self:on_close()
 			return
 		end
-			
+
 		if not r then
 			return
 		end
@@ -78,7 +79,7 @@ function M:recv()
 	if not r then
 		return
 	end
-	
+
 	self.last = self.last .. r
 	if #self.last < 2 then
 		return

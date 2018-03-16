@@ -1,4 +1,5 @@
 local client = require "network.client"
+require("app.views.MainScene")
 
 local M = class("LoginScene", cc.load("mvc").ViewBase)
 
@@ -14,6 +15,10 @@ function M:init()
 	self:initBgLayer()
 	
 	self:initItems()
+
+self:scheduleUpdateWithPriorityLua(function(dt)
+self:update(dt)
+end, 0)  
 end
 
 function M:initBgLayer()
@@ -30,7 +35,7 @@ function M:initBgLayer()
 	self.bgLayer = bgLayer
 	
 	self.client = client.new()
-	self.client:connect("222.73.139.48", 8080)
+	self.client:connect("192.168.43.79", 16800)
 	self:register_msg_callback()
 end
 
@@ -97,7 +102,7 @@ self.bgLayer:addChild(testLabel, 10)
 end
 
 function M:update(delta)
-	print("update")
+	--print("update")
 	self.client:deal_msgs()
 end
 
@@ -126,7 +131,9 @@ function M:BtnLogin()
 end
 
 function M:OnLoginResult(msg)
-
+	print("=======>")
+    print(msg)
+cc.Director:getInstance():replaceScene(MainScene:new())
 end
 
 function M:BtnRegister()
